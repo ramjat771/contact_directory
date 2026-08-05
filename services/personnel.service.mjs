@@ -341,3 +341,29 @@ export const deletePersonnel = async (
 
     return data;
 };
+
+
+export const getPersonnelByBattalionAndBranch = async (
+    battalionId,
+    branchId
+) => {
+    const validBattalionId = validateId(
+        battalionId,
+        "battalion id"
+    );
+
+    const validBranchId = validateId(
+        branchId,
+        "branch id"
+    );
+
+    await validateRelations(
+        validBattalionId,
+        validBranchId
+    );
+
+    return repo.getPersonnelByBattalionAndBranchRepo(
+        validBattalionId,
+        validBranchId
+    );
+};

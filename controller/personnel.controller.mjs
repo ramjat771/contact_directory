@@ -102,3 +102,27 @@ export const deletePersonnelController = async (
         next(err);
     }
 };
+
+export const getPersonnelByBattalionAndBranchController =
+    async (
+        req,
+        res,
+        next
+    ) => {
+        try {
+            const data =
+                await service
+                    .getPersonnelByBattalionAndBranch(
+                        req.params.battalionId,
+                        req.params.branchId
+                    );
+
+            return successResponse(
+                res,
+                data,
+                "Personnel fetched successfully"
+            );
+        } catch (err) {
+            next(err);
+        }
+    };

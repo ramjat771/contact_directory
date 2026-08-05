@@ -18,6 +18,14 @@ router.get(
     controller.getPersonnelByIdController
 );
 
+
+// Battalion + Branch wise personnel
+router.get(
+    "/battalion/:battalionId/branch/:branchId",
+    controller.getPersonnelByBattalionAndBranchController
+);
+
+
 router.patch(
     "/:id",
     controller.updatePersonnelController
@@ -27,5 +35,8 @@ router.delete(
     "/:id",
     controller.deletePersonnelController
 );
+
+
+
 
 export default router;

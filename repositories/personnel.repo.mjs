@@ -289,3 +289,27 @@ export const deletePersonnelRepo = async (
 
     return result.rows[0] ?? null;
 };
+
+
+export const getPersonnelByBattalionAndBranchRepo = async (
+    battalionId,
+    branchId
+) => {
+    const query = `
+        SELECT ${selectFields}
+        FROM rac_personnel p
+        WHERE p.battalion_id = $1::bigint
+        AND p.branch_id = $2::bigint
+        ORDER BY p.name ASC
+    `;
+
+    const result = await pool.query(
+        query,
+        [
+            battalionId,
+            branchId,
+        ]
+    );
+
+    return result.rows;
+};
