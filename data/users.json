@@ -1,0 +1,18 @@
+[
+    {
+        "userId": "admin_rac",
+        "password": "Aa@pabranch#989",
+        "name": "Administrator",
+        "post": "Admin",
+        "battalionId": null,
+        "isActive": true
+    },
+     {
+        "userId": "admin",
+        "password": "Aa@771772",
+        "name": "Administrator",
+        "post": "Admin",
+        "battalionId": null,
+        "isActive": true
+    }
+]
