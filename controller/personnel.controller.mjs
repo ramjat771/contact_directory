@@ -60,17 +60,22 @@ export const getPersonnelByIdController = async (
     }
 };
 
+
 export const updatePersonnelController = async (
     req,
     res,
     next
 ) => {
     try {
-        const data =
-            await service.updatePersonnel(
-                req.params.id,
-                req.body
-            );
+        console.log("UPDATE PERSONNEL ID:", req.params.id);
+        console.log("UPDATE PERSONNEL BODY:", req.body);
+
+        const data = await service.updatePersonnel(
+            req.params.id,
+            req.body
+        );
+
+        console.log("UPDATED PERSONNEL:", data);
 
         return successResponse(
             res,
