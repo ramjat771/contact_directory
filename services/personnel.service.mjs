@@ -65,6 +65,28 @@ const gender = (value) => {
     return g;
 };
 
+
+
+const validatePriority = (value) => {
+    if (value === undefined) {
+        return 100;
+    }
+
+    if (
+        !Number.isInteger(value) ||
+        value < 1
+    ) {
+        throw new CustomError(
+            "Priority must be a positive integer",
+            400
+        );
+    }
+
+    return value;
+};
+
+
+
 const validateRelations = async (
     battalionId,
     branchId
@@ -167,6 +189,7 @@ export const createPersonnel = async (
 
         isActive:
             body.isActive ?? true,
+        priority: validatePriority(body.priority),
     });
 };
 
@@ -315,6 +338,10 @@ export const updatePersonnel = async (
 
             isActive:
                 body.isActive,
+            priority:
+                body.priority !== undefined
+                    ? validatePriority(body.priority)
+                    : undefined,
         }
     );
 };

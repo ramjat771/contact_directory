@@ -12,6 +12,7 @@ const selectFields = `
     p.photo_url,
     p.remarks,
     p.gender,
+    p.priority,
     p.is_active,
     p.created_at,
     p.updated_at
@@ -32,7 +33,8 @@ export const createPersonnelRepo = async (data) => {
             photo_url,
             remarks,
             gender,
-            is_active
+            is_active,
+            priority
         )
         VALUES (
             $1::bigint,
@@ -45,7 +47,8 @@ export const createPersonnelRepo = async (data) => {
             $8::text,
             $9::text,
             $10::varchar,
-            $11::boolean
+            $11::boolean,
+             $12::integer
         )
         RETURNING *
     `;
@@ -62,6 +65,7 @@ export const createPersonnelRepo = async (data) => {
         data.remarks ?? null,
         data.gender ?? null,
         data.isActive ?? true,
+        data.priority ?? 100,
     ];
 
     const result =
@@ -76,7 +80,7 @@ export const getPersonnelRepo = async () => {
     const query = `
         SELECT ${selectFields}
         FROM rac_personnel p
-        ORDER BY p.id DESC
+       ORDER BY p.priority ASC, p.id DESC
     `;
 
     const result =
@@ -217,13 +221,21 @@ export const updatePersonnelRepo = async (
                 ELSE gender
             END,
 
-            is_active = CASE
-                WHEN $22::boolean
-                THEN $23::boolean
-                ELSE is_active
-            END,
 
-            updated_at = NOW()
+is_active = CASE
+    WHEN $22::boolean
+    THEN $23::boolean
+    ELSE is_active
+END,
+
+priority = CASE
+    WHEN $24::boolean
+    THEN $25::integer
+    ELSE priority
+END,
+
+updated_at = NOW()
+
 
         WHERE id = $1::bigint
 
@@ -265,6 +277,8 @@ export const updatePersonnelRepo = async (
 
         has("isActive"),
         data.isActive ?? null,
+        has("priority"),
+        data.priority ?? null,
     ];
 
     const result =
@@ -300,7 +314,7 @@ export const getPersonnelByBattalionAndBranchRepo = async (
         FROM rac_personnel p
         WHERE p.battalion_id = $1::bigint
         AND p.branch_id = $2::bigint
-        ORDER BY p.name ASC
+   ORDER BY p.priority ASC, p.name ASC
     `;
 
     const result = await pool.query(
